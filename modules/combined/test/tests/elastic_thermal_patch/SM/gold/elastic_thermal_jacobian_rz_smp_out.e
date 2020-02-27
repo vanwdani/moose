@@ -1,0 +1,1 @@
+../../gold/elastic_thermal_jacobian_rz_smp_out.e

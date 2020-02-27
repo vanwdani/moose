@@ -1,0 +1,1 @@
+../../gold/elastic_patch_rz_large_strain_out.e

@@ -10,8 +10,8 @@
 # y direction are compared in this problem.
 #
 # A similar problem was run in Abaqus on a similar 1 element mesh and was used
-# to verify the SolidMechanics solution; this TensorMechanics code matches the
-# SolidMechanics solution.
+# to verify the Solid Mechanics solution; this Tensor Mechanics code matches the
+# Solid Mechanics solution.
 #
 # Mechanical strain is the sum of the elastic and plastic strains but is different
 # from total strain in cases with eigen strains, e.g. thermal strain.

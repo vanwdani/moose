@@ -1,0 +1,1 @@
+../../gold/adapt_tstep_grow_dtfunc_out.e

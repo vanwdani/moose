@@ -1,0 +1,1 @@
+../../gold/3dy_scale_out.e
