@@ -1,1 +1,0 @@
-../../gold/adapt_tstep_function_force_step_out.e

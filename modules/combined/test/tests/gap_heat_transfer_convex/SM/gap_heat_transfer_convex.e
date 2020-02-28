@@ -1,1 +1,0 @@
-../gap_heat_transfer_convex.e

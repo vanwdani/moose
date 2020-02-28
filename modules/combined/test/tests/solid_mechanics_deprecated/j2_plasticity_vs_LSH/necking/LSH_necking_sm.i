@@ -16,11 +16,12 @@
   [../]
 []
 
-[Kernels]
-  [./TensorMechanics]
-    add_variables = true
-    displacements = 'disp_x disp_y'
-    use_displaced_mesh = true
+[SolidMechanics]
+  [./solid]
+    disp_x = disp_x
+    disp_y = disp_y
+#    save_in_disp_x = force_x
+    save_in_disp_y = force_y
   [../]
 []
 
@@ -53,32 +54,28 @@
 
 [AuxKernels]
   [./stress_xx]
-    type = RankTwoAux
-    rank_two_tensor = stress
+    type = MaterialTensorAux
+    tensor = stress
     variable = stress_xx
-    index_i = 0
-    index_j = 0
+    index = 0
   [../]
   [./stress_yy]
-    type = RankTwoAux
-    rank_two_tensor = stress
+    type = MaterialTensorAux
+    tensor = stress
     variable = stress_yy
-    index_i = 1
-    index_j = 1
+    index = 1
   [../]
   [./strain_xx]
-    type = RankTwoAux
-    rank_two_tensor = total_strain
+    type = MaterialTensorAux
+    tensor = total_strain
     variable = strain_xx
-    index_i = 0
-    index_j = 0
+    index = 0
   [../]
   [./strain_yy]
-    type = RankTwoAux
-    rank_two_tensor = total_strain
+    type = MaterialTensorAux
+    tensor = total_strain
     variable = strain_yy
-    index_i = 1
-    index_j = 1
+    index = 1
   [../]
  []
 
@@ -103,40 +100,18 @@
   [../]
 []
 
-[UserObjects]
-  [./str]
-    type = TensorMechanicsHardeningConstant
-    value = 2.4e2
-  [../]
-  [./j2]
-    type = TensorMechanicsPlasticJ2
-    yield_strength = str
-    yield_function_tolerance = 1E-3
-    internal_constraint_tolerance = 1E-9
-  [../]
-[]
-
 [Materials]
-  [./elasticity_tensor]
-    type = ComputeElasticityTensor
+  [./constant]
+    type = LinearStrainHardening
     block = 1
-    fill_method = symmetric_isotropic
-    #with E = 2.1e5 and nu = 0.3
-    #Hooke's law: E-nu to Lambda-G
-    C_ijkl = '121154 80769.2'
-  [../]
-  [./strain]
-    type = ComputeIncrementalSmallStrain
-    block = 1
-    displacements = 'disp_x disp_y'
-  [../]
-  [./mc]
-    type = ComputeMultiPlasticityStress
-    block = 1
-    ep_plastic_tolerance = 1E-9
-    plastic_models = j2
-    tangent_operator = elastic
-    perform_finite_strain_rotations = false
+    youngs_modulus = 2.1e5
+    poissons_ratio = 0.3
+    yield_stress = 2.4e2
+    hardening_constant = 0
+    relative_tolerance = 1e-9
+    absolute_tolerance = 1e-25
+    disp_x = disp_x
+    disp_y = disp_y
   [../]
 []
 

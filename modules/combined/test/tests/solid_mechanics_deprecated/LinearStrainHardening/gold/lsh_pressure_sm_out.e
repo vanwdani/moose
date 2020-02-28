@@ -1,0 +1,1 @@
+../../../solid_mechanics/LinearStrainHardening/gold/lsh_pressure_out.e

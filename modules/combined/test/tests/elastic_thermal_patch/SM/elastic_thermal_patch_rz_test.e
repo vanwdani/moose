@@ -1,1 +1,0 @@
-../elastic_thermal_patch_rz_test.e

@@ -1,0 +1,8 @@
+[Tests]
+  [./LSH_mod_sm]
+    type = 'CSVDiff'
+    input = 'LSH_mod_sm.i'
+    csvdiff = 'LSH_mod_out.csv'
+    heavy = true
+  [../]
+[]

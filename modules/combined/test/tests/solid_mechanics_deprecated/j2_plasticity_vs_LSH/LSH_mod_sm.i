@@ -36,10 +36,11 @@
   [../]
 []
 
-[Kernels]
-  [./TensorMechanics]
-    add_variables = true
-    displacements = 'disp_x disp_y disp_z'
+[SolidMechanics]
+  [./solid]
+    disp_x = disp_x
+    disp_y = disp_y
+    disp_z = disp_z
   [../]
 []
 
@@ -72,32 +73,28 @@
 
 [AuxKernels]
   [./stress_zz]
-    type = RankTwoAux
-    rank_two_tensor = stress
+    type = MaterialTensorAux
+    tensor = stress
     variable = stress_zz
-    index_i = 2
-    index_j = 2
+    index = 2
   [../]
   [./strain_xx]
-    type = RankTwoAux
-    rank_two_tensor = total_strain
+    type = MaterialTensorAux
+    tensor = total_strain
     variable = strain_xx
-    index_i = 0
-    index_j = 0
+    index = 0
   [../]
   [./strain_yy]
-    type = RankTwoAux
-    rank_two_tensor = total_strain
+    type = MaterialTensorAux
+    tensor = total_strain
     variable = strain_yy
-    index_i = 1
-    index_j = 1
+    index = 1
   [../]
   [./strain_zz]
-    type = RankTwoAux
-    rank_two_tensor = total_strain
+    type = MaterialTensorAux
+    tensor = total_strain
     variable = strain_zz
-    index_i = 2
-    index_j = 2
+    index = 2
   [../]
 []
 
@@ -128,39 +125,19 @@
   [../]
 []
 
-[UserObjects]
-  [./str]
-    type = TensorMechanicsHardeningConstant
-    value = 2.4e2
-  [../]
-  [./j2]
-    type = TensorMechanicsPlasticJ2
-    yield_strength = str
-    yield_function_tolerance = 1E-3
-    internal_constraint_tolerance = 1E-9
-  [../]
-[]
-
 [Materials]
-  [./elasticity_tensor]
-    type = ComputeElasticityTensor
+  [./constant]
+    type = LinearStrainHardening
     block = 0
-    fill_method = symmetric_isotropic
-    #with E = 2.1e5 and nu = 0.3
-    #Hooke's law: E-nu to Lambda-G
-    C_ijkl = '121154 80769.2'
-  [../]
-  [./strain]
-    type = ComputeIncrementalSmallStrain
-    block = 0
-    displacements = 'disp_x disp_y disp_z'
-  [../]
-  [./mc]
-    type = ComputeMultiPlasticityStress
-    block = 0
-    ep_plastic_tolerance = 1E-9
-    plastic_models = j2
-    tangent_operator = elastic
+    youngs_modulus = 2.1e5
+    poissons_ratio = 0.3
+    yield_stress = 2.4e2
+    hardening_constant = 0
+    relative_tolerance = 1e-9
+    absolute_tolerance = 1e-25
+    disp_x = disp_x
+    disp_y = disp_y
+    disp_z = disp_z
   [../]
 []
 

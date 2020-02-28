@@ -1,1 +1,0 @@
-../../gold/elas_plas_nl1_cycle_8e-5_out.e

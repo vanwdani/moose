@@ -1,0 +1,1 @@
+../../../gravity/gold/gravity_hex20_out.e

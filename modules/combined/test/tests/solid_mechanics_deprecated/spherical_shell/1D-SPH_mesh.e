@@ -1,0 +1,1 @@
+../../solid_mechanics/spherical_shell/1D-SPH_mesh.e

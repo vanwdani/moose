@@ -1,0 +1,1 @@
+../../../elastic_thermal_patch/gold/elastic_thermal_patch_rz_out.e

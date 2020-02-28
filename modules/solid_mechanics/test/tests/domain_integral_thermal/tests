@@ -1,38 +1,38 @@
 [Tests]
-  [./test_jthermal]
+  [./test_jthermal_sm]
     type = 'Exodiff'
-    input = 'j_integral_2d.i'
+    input = 'j_integral_2d_sm.i'
     exodiff = 'j_integral_2d_out.e'
     custom_cmp = 'j_integral_2d.cmp'
     no_error_deprecated = true
   [../]
-  [./test_jthermal_ctefunc]
+  [./test_jthermal_ctefunc_sm]
     type = 'CSVDiff'
-    input = 'j_integral_2d_ctefunc.i'
+    input = 'j_integral_2d_ctefunc_sm.i'
     csvdiff = 'j_integral_2d_ctefunc_out.csv'
     no_error_deprecated = true
   [../]
-  [./test_jthermal_mean_ctefunc]
+  [./test_jthermal_mean_ctefunc_sm]
     type = 'CSVDiff'
-    input = 'j_integral_2d_mean_ctefunc.i'
+    input = 'j_integral_2d_mean_ctefunc_sm.i'
     csvdiff = 'j_integral_2d_mean_ctefunc_out.csv'
     no_error_deprecated = true
   [../]
-  [./test_jthermal_inst_ctefunc]
+  [./test_jthermal_inst_ctefunc_sm]
     type = 'CSVDiff'
-    input = 'j_integral_2d_inst_ctefunc.i'
+    input = 'j_integral_2d_inst_ctefunc_sm.i'
     csvdiff = 'j_integral_2d_inst_ctefunc_out.csv'
     no_error_deprecated = true
   [../]
-  [./test_iithermal]
+  [./test_iithermal_sm]
     type = 'CSVDiff'
-    input = 'interaction_integral_2d.i'
+    input = 'interaction_integral_2d_sm.i'
     csvdiff = 'interaction_integral_2d_out.csv'
     no_error_deprecated = true
   [../]
-  [./test_iithermal_rot]
+  [./test_iithermal_rot_sm]
     type = 'CSVDiff'
-    input = 'interaction_integral_2d_rot.i'
+    input = 'interaction_integral_2d_rot_sm.i'
     csvdiff = 'interaction_integral_2d_rot_out.csv'
     no_error_deprecated = true
   [../]

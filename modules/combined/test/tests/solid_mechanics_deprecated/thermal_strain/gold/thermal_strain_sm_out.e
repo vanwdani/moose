@@ -1,0 +1,1 @@
+../../../thermal_strain/gold/thermal_strain_out.e

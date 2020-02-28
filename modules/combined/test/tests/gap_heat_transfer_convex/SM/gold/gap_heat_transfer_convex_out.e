@@ -1,1 +1,0 @@
-../../gold/gap_heat_transfer_convex_out.e

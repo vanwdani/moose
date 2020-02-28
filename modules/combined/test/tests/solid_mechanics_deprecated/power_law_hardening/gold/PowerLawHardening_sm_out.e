@@ -1,0 +1,1 @@
+../../../power_law_hardening/gold/PowerLawHardening_out.e

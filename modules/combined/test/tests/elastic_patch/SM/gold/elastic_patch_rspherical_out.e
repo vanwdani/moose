@@ -1,1 +1,0 @@
-../../gold/elastic_patch_rspherical_out.e

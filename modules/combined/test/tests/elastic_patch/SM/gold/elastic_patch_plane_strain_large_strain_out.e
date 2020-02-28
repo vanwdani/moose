@@ -1,1 +1,0 @@
-../../gold/elastic_patch_plane_strain_large_strain_out.e

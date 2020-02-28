@@ -1,1 +1,0 @@
-../../gold/gravity_rz_quad8_out.e

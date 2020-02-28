@@ -1,1 +1,0 @@
-../../gold/gravity_out.e

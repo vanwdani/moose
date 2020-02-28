@@ -1,1 +1,0 @@
-../plot_cycled_stress.py

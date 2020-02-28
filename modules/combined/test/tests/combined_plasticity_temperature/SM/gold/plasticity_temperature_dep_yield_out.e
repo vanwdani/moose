@@ -1,1 +1,0 @@
-../../gold/plasticity_temperature_dep_yield_out.e

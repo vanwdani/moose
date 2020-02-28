@@ -1,0 +1,1 @@
+../../solid_mechanics/spherical_shell/3D_mesh.e

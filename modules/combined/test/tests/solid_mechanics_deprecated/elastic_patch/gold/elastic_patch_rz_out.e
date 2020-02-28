@@ -1,0 +1,1 @@
+../../../elastic_patch/gold/elastic_patch_rz_out.e
