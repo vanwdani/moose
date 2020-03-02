@@ -1,1 +1,1 @@
-../../../inelastic_strain/elas_plas/plot_cycled_stress.py
+../../../../../../tensor_mechanics/test/tests/inelastic_strain/elas_plas/plot_cycled_stress.py

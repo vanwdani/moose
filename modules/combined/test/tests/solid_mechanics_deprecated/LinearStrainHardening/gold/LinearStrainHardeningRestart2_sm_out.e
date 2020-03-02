@@ -1,1 +1,1 @@
-../../../solid_mechanics/LinearStrainHardening/gold/LinearStrainHardeningRestart2_out.e
+../../../../../../tensor_mechanics/test/tests/LinearStrainHardening/gold/LinearStrainHardeningRestart2_out.e

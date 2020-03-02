@@ -14,4 +14,12 @@
     input = reducedOrderRZQuadratic.i
     csvdiff = reducedOrderRZQuadratic_out_hydro_0001.csv
   [../]
+  [./composite]
+    type = 'Exodiff'
+    input = 'composite.i'
+    exodiff = 'composite_out.e'
+    issues = '#6205'
+    design = 'CompositeEigenstrain.md'
+    requirement = "The CompositeEigenstrain material shall correctly apply an eigenstrain computed as the weighted sum of two base Eigenstrain tensors"
+  [../]
 []

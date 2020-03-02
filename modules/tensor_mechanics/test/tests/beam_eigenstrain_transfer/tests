@@ -1,0 +1,16 @@
+[Tests]
+  [./transfer]
+    design = 'MultiAppUserObjectTransfer.md LineValueSampler.md'
+    issues = '#10313'
+    requirement = 'The system shall use transfer values from multiple sub applications to an auxvariable in the master action'
+
+    [./error_1]
+      type = RunException
+      input = 'subapp1_uo_transfer.i'
+      cli_args = "VectorPostprocessors/axial_str/end_point='0.5 0 0' Outputs/csv=false Outputs/exodus=false"
+      expect_err = 'LineValueSampler: `start_point` and `end_point` must be different.'
+      detail = 'and LineValueSampler shall report an error if the line segment provided as input has zero length.'
+    [../]
+  
+  [../]
+[]

@@ -1,1 +1,1 @@
-../../solid_mechanics/LinearStrainHardening/LinearStrainHardening_test.e
+../../../../../tensor_mechanics/test/tests/LinearStrainHardening/LinearStrainHardening_test.e

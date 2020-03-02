@@ -26,14 +26,7 @@
     design = 'ComputeVariableEigenstrain.md'
     requirement = "The ComputeVariableEigenstrain material shall correctly compute the derivative of an eigenstrain that is a function of a variable with respect to that variable."
   [../]
-  [./composite]
-    type = 'Exodiff'
-    input = 'composite.i'
-    exodiff = 'composite_out.e'
-    issues = '#6205'
-    design = 'CompositeEigenstrain.md'
-    requirement = "The CompositeEigenstrain material shall correctly apply an eigenstrain computed as the weighted sum of two base Eigenstrain tensors"
-  [../]
+
   [./inclusion]
     type = 'Exodiff'
     input = 'inclusion.i'

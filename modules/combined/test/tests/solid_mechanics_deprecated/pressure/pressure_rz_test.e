@@ -1,1 +1,1 @@
-../../solid_mechanics/pressure/pressure_rz_test.e
+../../../../../tensor_mechanics/test/tests/pressure_combined/pressure_rz_test.e

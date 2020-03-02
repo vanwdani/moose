@@ -9,13 +9,6 @@
       exodiff = 'master_uo_transfer_out.e'
       detail = 'using MultiAppUserObjectTransfer.'
     [../]
-    [./error_1]
-      type = RunException
-      input = 'subapp1_uo_transfer.i'
-      cli_args = "VectorPostprocessors/axial_str/end_point='0.5 0 0' Outputs/csv=false Outputs/exodus=false"
-      expect_err = 'LineValueSampler: `start_point` and `end_point` must be different.'
-      detail = 'and LineValueSampler shall report an error if the line segment provided as input has zero length.'
-    [../]
     [./error_2]
       type = RunException
       input = 'master_uo_transfer.i'

@@ -1,1 +1,1 @@
-../../solid_mechanics/beam_pbp/beam_pbp.e
+../../../../../tensor_mechanics/test/tests/beam_pbp/beam_pbp.e

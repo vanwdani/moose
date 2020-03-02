@@ -1,1 +1,1 @@
-../../../solid_mechanics/spherical_shell/gold/3D_test_out.e
+../../../../../../tensor_mechanics/test/tests/spherical_shell/gold/3D_test_out.e

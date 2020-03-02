@@ -1,1 +1,1 @@
-../../pressure/gold/pressure_test_out.e
+../../pressure_combined/gold/pressure_test1_out.e

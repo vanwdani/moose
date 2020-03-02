@@ -1,1 +1,1 @@
-../../../solid_mechanics/HHT_time_integrator/one_element_b_0_3025_g_0_6_cubic_out.e
+../../../../../../tensor_mechanics/test/tests/HHT_time_integrator/one_element_b_0_3025_g_0_6_cubic_out.e

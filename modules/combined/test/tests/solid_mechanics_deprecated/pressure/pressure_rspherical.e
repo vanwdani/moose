@@ -1,1 +1,1 @@
-../../solid_mechanics/pressure/pressure_rspherical.e
+../../../../../tensor_mechanics/test/tests/pressure_combined/pressure_rspherical.e

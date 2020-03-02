@@ -1,1 +1,1 @@
-../../../../inelastic_strain/elas_plas/gold/elas_plas_nl1_cycle_out.e
+../../../../../../../tensor_mechanics/test/tests/inelastic_strain/elas_plas/gold/elas_plas_nl1_cycle_out.e

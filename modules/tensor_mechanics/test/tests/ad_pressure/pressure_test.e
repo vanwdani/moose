@@ -1,1 +1,1 @@
-../pressure/pressure_test.e
+../pressure_combined/pressure_test.e

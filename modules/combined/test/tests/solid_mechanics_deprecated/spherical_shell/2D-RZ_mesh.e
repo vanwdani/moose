@@ -1,1 +1,1 @@
-../../solid_mechanics/spherical_shell/2D-RZ_mesh.e
+../../../../../tensor_mechanics/test/tests/spherical_shell/2D-RZ_mesh.e

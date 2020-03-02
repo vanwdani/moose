@@ -1,1 +1,1 @@
-../../solid_mechanics/LinearStrainHardening/lsh_pressure.e
+../../../../../tensor_mechanics/test/tests/LinearStrainHardening/lsh_pressure.e

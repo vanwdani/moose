@@ -1,1 +1,1 @@
-../../solid_mechanics/spherical_shell/3D_mesh.e
+../../../../../tensor_mechanics/test/tests/spherical_shell/3D_mesh.e

@@ -1,1 +1,1 @@
-../../../inelastic_strain/elas_plas/one_elem2.e
+../../../../../../tensor_mechanics/test/tests/inelastic_strain/elas_plas/one_elem2.e
