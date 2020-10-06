@@ -13,6 +13,7 @@
 #include "MooseMesh.h"
 #include "MooseObjectAction.h"
 #include "TensorMechanicsAction.h"
+#include "Material.h"
 
 #include "libmesh/string_to_enum.h"
 #include <algorithm>
@@ -32,6 +33,8 @@ registerMooseAction("TensorMechanicsApp", TensorMechanicsAction, "add_kernel");
 registerMooseAction("TensorMechanicsApp", TensorMechanicsAction, "add_aux_kernel");
 
 registerMooseAction("TensorMechanicsApp", TensorMechanicsAction, "add_material");
+
+registerMooseAction("TensorMechanicsApp", TensorMechanicsAction, "add_master_action_material");
 
 InputParameters
 TensorMechanicsAction::validParams()
@@ -175,6 +178,9 @@ TensorMechanicsAction::TensorMechanicsAction(const InputParameters & params)
   // Get direction for tensor component if set by user
   if (_direction_valid)
     _direction = getParam<Point>("direction");
+
+  // Get eigenstrain names if passed by user
+  _eigenstrain_names = getParam<std::vector<MaterialPropertyName>>("eigenstrain_names");
 }
 
 void
@@ -240,8 +246,10 @@ TensorMechanicsAction::act()
   }
 
   // Add Materials
-  else if (_current_task == "add_material")
+  else if (_current_task == "add_master_action_material")
   {
+    actEigenstrainNames();
+
     std::string type;
 
     // no plane strain
@@ -302,6 +310,12 @@ TensorMechanicsAction::act()
 
     // set material parameters
     auto params = _factory.getValidParams(ad_prepend + type);
+
+    // If eigenstrain_names parameter is empty, fill it
+    //  if (_eigenstrain_names.empty())
+    params.set<std::vector<MaterialPropertyName>>("eigenstrain_names") =
+        _block_based_eigenstrain_names;
+
     params.applyParameters(parameters(),
                            {"displacements",
                             "use_displaced_mesh",
@@ -322,7 +336,11 @@ TensorMechanicsAction::act()
       params.set<std::vector<VariableName>>("out_of_plane_strain") = {
           getParam<VariableName>("out_of_plane_strain")};
 
+    for (unsigned int i = 0; i < _block_based_eigenstrain_names.size(); ++i)
+      std::cout << _block_based_eigenstrain_names.at(i) << std::endl;
+
     _problem->addMaterial(ad_prepend + type, name() + "_strain", params);
+    std::cout << "------------------------------" << std::endl;
   }
 
   // Add Stress Divergence (and optionally WeakPlaneStress) Kernels
@@ -439,7 +457,7 @@ TensorMechanicsAction::actOutputGeneration()
     for (auto out : _generate_output)
     {
       InputParameters params = emptyInputParameters();
-      ;
+
       params = _factory.getValidParams(ad_prepend + "MaterialRealAux");
       params.applyParameters(parameters());
       params.set<MaterialPropertyName>("property") = _base_name + out;
@@ -451,6 +469,62 @@ TensorMechanicsAction::actOutputGeneration()
   }
 }
 
+void
+TensorMechanicsAction::actEigenstrainNames()
+{
+  // Determine all the materials(eigenstrains) all ready created
+  auto materials = _problem->getMaterialWarehouse().getObjects();
+  std::set<std::string> eigenstrain_set;
+  for (auto & mat : materials)
+  {
+    const InputParameters & params = mat->parameters();
+    // Check for eigenstrain names, only deal with those materials
+    if (params.isParamValid("eigenstrain_name"))
+    {
+      auto name = params.get<std::string>("eigenstrain_name");
+      // If the block is defined on the material
+      if (params.isParamValid("block"))
+      {
+        // Get the IDs from the supplied block names
+        auto blocks = params.get<std::vector<SubdomainName>>("block");
+        auto vec_ids = _mesh->getSubdomainIDs(blocks);
+
+        // It might be possible that an eigenstrain is applied multiple blocks
+        std::set<SubdomainID>::iterator itr;
+        for (itr = _subdomain_ids.begin(); itr != _subdomain_ids.end(); ++itr)
+        {
+          for (unsigned int j = 0; j < blocks.size(); ++j)
+          {
+            // The current subdomainID the action is cycling through matches the material block
+            // requested
+            if (vec_ids[j] == *itr)
+              eigenstrain_set.insert(name);
+          }
+        }
+      }
+      // When 'blocks' is not set and there is a "variable", use the blocks from the variable
+      else if (params.isParamValid("variable"))
+      {
+        std::string variable_name = params.getMooseType("variable");
+        std::cout << "Variable = " << variable_name << std::endl;
+        if (!variable_name.empty())
+          std::cout << _problem
+                           ->getVariable(0,
+                                         variable_name,
+                                         Moose::VarKindType::VAR_ANY,
+                                         Moose::VarFieldType::VAR_FIELD_ANY)
+                           .activeSubdomains()
+                    << std::endl;
+      }
+      // It might also be possible that there are no explicit block numbers
+      else
+        eigenstrain_set.insert(name);
+    }
+  }
+  // Transfer set to vector
+  _block_based_eigenstrain_names.resize(eigenstrain_set.size());
+  std::copy(eigenstrain_set.begin(), eigenstrain_set.end(), _block_based_eigenstrain_names.begin());
+}
 void
 TensorMechanicsAction::actOutputMatProp()
 {
