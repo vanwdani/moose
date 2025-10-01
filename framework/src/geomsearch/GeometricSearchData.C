@@ -228,7 +228,6 @@ GeometricSearchData::getNearestNodeLocator(const BoundaryID primary_id,
 {
   NearestNodeLocator * nnl =
       _nearest_node_locators[std::pair<BoundaryID, BoundaryID>(primary_id, secondary_id)];
-
   _subproblem.addGhostedBoundary(primary_id);
   _subproblem.addGhostedBoundary(secondary_id);
 
@@ -245,6 +244,7 @@ NearestNodeLocator &
 GeometricSearchData::getQuadratureNearestNodeLocator(const BoundaryName & primary,
                                                      const BoundaryName & secondary)
 {
+
   const auto primary_id = _mesh.getBoundaryID(primary);
   const auto secondary_id = _mesh.getBoundaryID(secondary);
 
@@ -262,6 +262,7 @@ GeometricSearchData::getQuadratureNearestNodeLocator(const BoundaryID primary_id
   const auto qsecondary_id = -secondary_id - 1;
 
   _secondary_to_qsecondary[secondary_id] = qsecondary_id;
+
   return getNearestNodeLocator(primary_id, qsecondary_id);
 }
 

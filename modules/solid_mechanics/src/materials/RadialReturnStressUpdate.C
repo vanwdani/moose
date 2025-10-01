@@ -26,6 +26,7 @@ RadialReturnStressUpdateTempl<is_ad>::validParams()
   params.addParam<Real>("max_inelastic_increment",
                         1e-4,
                         "The maximum inelastic strain increment allowed in a time step");
+  params.declareControllable("max_inelastic_increment");
   params.addRequiredParam<std::string>(
       "effective_inelastic_strain_name",
       "Name of the material property that stores the effective inelastic strain");
@@ -265,7 +266,7 @@ RadialReturnStressUpdateTempl<is_ad>::updateState(
 
   // Use Newton iteration to determine the scalar effective inelastic strain increment
   _effective_inelastic_strain_increment = 0.0;
-  if (!MooseUtils::absoluteFuzzyEqual(effective_trial_stress, 0.0))
+  if (!MooseUtils::absoluteFuzzyEqual(effective_trial_stress, 0.0) && !std::isnan(effective_trial_stress) )
   {
     this->returnMappingSolve(
         effective_trial_stress, _effective_inelastic_strain_increment, this->_console);

@@ -129,7 +129,7 @@ SingleVariableReturnMappingSolutionTempl<is_ad>::returnMappingSolve(
     switch (solve_state)
     {
       case SolveState::NAN_INF:
-        *iter_output << "Encountered inf or nan in material return mapping iterations.\n";
+        *iter_output << effective_trial_stress << " :Encountered inf or nan in material return mapping iterations.\n";
         break;
 
       case SolveState::EXCEEDED_ITERATIONS:
@@ -175,7 +175,9 @@ SingleVariableReturnMappingSolutionTempl<is_ad>::internalSolve(
   _iteration = 0;
 
   computeResidualAndDerivativeHelper(effective_trial_stress, scalar);
-  _initial_residual = _residual;
+  if (isnan(_residual))
+        _residual = 0.0;
+    _initial_residual = _residual;
 
   GenericReal<is_ad> residual_old = _residual;
   Real init_resid_sign = MathUtils::sign(MetaPhysicL::raw_value(_residual));
@@ -443,7 +445,7 @@ SingleVariableReturnMappingSolutionTempl<is_ad>::outputIterationSummary(
     std::stringstream * iter_output, const unsigned int total_it)
 {
   if (iter_output)
-    *iter_output << "In " << total_it << " iterations the residual went from "
+    *iter_output << "SingleVariable:In " << total_it << " iterations the residual went from "
                  << MetaPhysicL::raw_value(_initial_residual) << " to "
                  << MetaPhysicL::raw_value(_residual) << " in '" << _svrms_name << "'."
                  << std::endl;

@@ -378,6 +378,7 @@ MooseMesh::freeBndNodes()
   // free memory
   for (auto & bnode : _bnd_nodes)
     delete bnode;
+  _bnd_node_range.reset();
 
   for (auto & it : _node_set_nodes)
     it.second.clear();
@@ -397,6 +398,7 @@ MooseMesh::freeBndElems()
   // free memory
   for (auto & belem : _bnd_elems)
     delete belem;
+  _bnd_elem_range.reset();
 
   for (auto & it : _bnd_elem_ids)
     it.second.clear();
@@ -893,6 +895,9 @@ MooseMesh::meshChanged()
   _bnd_node_range.reset();
   _bnd_elem_range.reset();
 
+  // // Re-create the node lists (we really want new boundary nodes, and this triggers it)
+  buildNodeList();
+
   // Rebuild the ranges
   getActiveLocalElementRange();
   getActiveNodeRange();
@@ -1053,6 +1058,7 @@ MooseMesh::buildNodeList()
 
   // This sort is here so that boundary conditions are always applied in the same order
   std::sort(_bnd_nodes.begin(), _bnd_nodes.end(), BndNodeCompare());
+  _bnd_node_range.reset();
 }
 
 void
@@ -1172,6 +1178,7 @@ MooseMesh::buildBndElemList()
     _bnd_elems.push_back(new BndElement(getMesh().elem_ptr(elem_id), side_id, bc_id));
     _bnd_elem_ids[bc_id].insert(elem_id);
   }
+  _bnd_elem_range.reset();
 }
 
 const std::map<dof_id_type, std::vector<dof_id_type>> &
@@ -1686,6 +1693,8 @@ MooseMesh::clearQuadratureNodes()
   _quadrature_nodes.clear();
   _elem_to_side_to_qp_to_quadrature_nodes.clear();
   _extra_bnd_nodes.clear();
+  _bnd_elem_range.reset();
+  _bnd_node_range.reset();
 }
 
 BoundaryID
@@ -3434,9 +3443,17 @@ MooseMesh::getInflatedProcessorBoundingBox(Real inflation_multiplier) const
   return bbox;
 }
 
-MooseMesh::operator libMesh::MeshBase &() { return getMesh(); }
+MooseMesh::
+operator libMesh::MeshBase &()
+{
+  return getMesh();
+}
 
-MooseMesh::operator const libMesh::MeshBase &() const { return getMesh(); }
+MooseMesh::
+operator const libMesh::MeshBase &() const
+{
+  return getMesh();
+}
 
 const MeshBase *
 MooseMesh::getMeshPtr() const

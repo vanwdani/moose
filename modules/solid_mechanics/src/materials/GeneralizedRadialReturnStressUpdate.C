@@ -30,6 +30,7 @@ GeneralizedRadialReturnStressUpdateTempl<is_ad>::validParams()
   params.addParam<Real>("max_inelastic_increment",
                         1e-4,
                         "The maximum inelastic strain increment allowed in a time step");
+  params.declareControllable("max_inelastic_increment");
   params.addParam<Real>("max_integration_error",
                         5e-4,
                         "The maximum inelastic strain increment integration error allowed");
@@ -125,7 +126,7 @@ GeneralizedRadialReturnStressUpdateTempl<is_ad>::updateState(
   GenericReal<is_ad> delta_gamma = 0.0;
 
   // Use Newton iteration to determine the scalar effective inelastic strain increment
-  if (!MooseUtils::absoluteFuzzyEqual(MetaPhysicL::raw_value(stress_dev).l2_norm(), 0.0))
+  if (!MooseUtils::absoluteFuzzyEqual(MetaPhysicL::raw_value(stress_dev).l2_norm(), 0.0) &&!std::isnan(MetaPhysicL::raw_value(stress_dev).l2_norm()))
   {
     this->returnMappingSolve(stress_dev, stress_new_vector, delta_gamma, this->_console);
 

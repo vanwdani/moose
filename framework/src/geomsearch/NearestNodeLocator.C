@@ -195,9 +195,12 @@ NearestNodeLocator::findNodes()
         for (const auto & dof : elems_connected_to_node)
           if (std::find(ghost.begin(), ghost.end(), dof) == ghost.end() &&
               _mesh.elemPtr(dof)->processor_id() != _mesh.processor_id())
-            mooseError("Error in NearestNodeLocator: The nearest neighbor lies outside the "
-                       "ghosted set of elements. Increase the ghosting_patch_size parameter in the "
-                       "mesh block and try again.");
+            // mooseError("Error in NearestNodeLocator: The nearest neighbor lies outside the
+            // ghosted
+            // "
+            //            "set of elements. Increase the ghosting_patch_size parameter in the mesh "
+            //            "block and try again.");
+            _subproblem.addGhostedElem(dof);
       }
     }
   }
@@ -245,7 +248,6 @@ void
 NearestNodeLocator::updatePatch(std::vector<dof_id_type> & secondary_nodes)
 {
   TIME_SECTION("updatePatch", 3, "Updating Nearest Node Search Patch");
-
   std::vector<dof_id_type> trial_primary_nodes;
 
   // Build a bounding box.  No reason to consider nodes outside of our inflated BB
@@ -329,7 +331,6 @@ NearestNodeLocator::updatePatch(std::vector<dof_id_type> & secondary_nodes)
 
   // Get the set of elements that are currently being ghosted
   std::set<dof_id_type> ghost = _subproblem.ghostedElems();
-
   // Update the nearest node information corresponding to these tracked secondary nodes
   for (const auto & node_id : tracked_secondary_node_range)
   {
@@ -345,11 +346,15 @@ NearestNodeLocator::updatePatch(std::vector<dof_id_type> & secondary_nodes)
     {
       const std::vector<dof_id_type> & elems_connected_to_node = node_to_elem_pair->second;
       for (const auto & dof : elems_connected_to_node)
+      {
         if (std::find(ghost.begin(), ghost.end(), dof) == ghost.end() &&
             _mesh.elemPtr(dof)->processor_id() != _mesh.processor_id())
-          mooseError("Error in NearestNodeLocator: The nearest neighbor lies outside the ghosted "
-                     "set of elements. Increase the ghosting_patch_size parameter in the mesh "
-                     "block and try again.");
+          // mooseError("Error in NearestNodeLocator: The nearest neighbor lies outside the ghosted
+          // "
+          //            "set of elements. Increase the ghosting_patch_size parameter in the mesh "
+          //            "block and try again.");
+          _subproblem.addGhostedElem(dof);
+      }
     }
   }
 }
